@@ -80,6 +80,8 @@ def cor(date, *arguments):
         df_pivot.head()
         for i in symbols_list:
              df_pivot[i]=df_pivot[i].astype(float)
+	     #Here is the extra line making prices in logretuns
+	     df_pivot[i] =  np.log(1 + df_pivot[i].pct_change())
         #correlation
         corr_df = df_pivot.corr(method='pearson')
         #reset symbol as index (rather than 0-X)
