@@ -94,40 +94,6 @@ def cor(date, *arguments):
 
 #cor("2022-08-08","SHIB, DOGE, LUNA")
 
-def HistCor(Symbol1,Symbol2): 
-        symbols_list = [Symbol1, Symbol2]
-        symbols=[]
-        dates=["2022-09-01","2022-06-01"]
-        for ticker in symbols_list:     
-            klines = client.get_historical_klines(ticker+"USDT", "1d", start_str="2020-01-01")
-            data = pd.DataFrame(klines)
-            # create colums name
-            data.columns = ['open_time','open', 'high', 'low', 'close', 'volume','close_time', 'qav','num_trades','taker_base_vol',"taker_quote_vol", "ignore"]                       
-            # change the timestamp
-            data.index = [dt.datetime.fromtimestamp(x/1000.0) for x in data.close_time]
-            #convert data to float and plot (ELIMINAR)
-            data['Symbol'] = ticker    
-            symbols.append(data)
-        df = pd.concat(symbols)       
-        df = df.reset_index()
-        df = df[['index', 'close', 'Symbol']]
-        df.head()
-        df_pivot=df.pivot('index','Symbol','close').reset_index()
-        df_pivot.head()
-        for i in symbols_list:
-             df_pivot[i]=df_pivot[i].astype(float)
-             df_pivot[i] =  np.log(1 + df_pivot[i].pct_change())
-        #correlation
-        corr_df = df_pivot.corr(method='pearson')
-        #reset symbol as index (rather than 0-X)
-        corr_df.head().reset_index()
-        #del corr_df.index.name
-        corr_df.head(10)
-
-        plt.figure(figsize=(13, 8))
-        seaborn.heatmap(corr_df, annot=True, cmap="RdYlGn")
-        plt.figure()
-        plt.show()
 
 def Fut_cor(date,*arguments):
     txt=[]
@@ -181,42 +147,10 @@ def Fut_cor(date,*arguments):
       seaborn.despine() 
     plt.show()
 
-Fut_cor("2022-06-06", "BTC, DOGE")
+#Fut_cor("2022-06-06", "BTC, DOGE")
 
-symbols_list =["ETH","BTC"]
-
-symbols=[]
-for ticker in symbols_list:     
-        klines = pd.DataFrame(client.futures_historical_klines(
-        symbol=ticker+'USDT',
-        interval='1d',
-        start_str="2022-01-01",
-        end_str= None 
-    ))
-        data = pd.DataFrame(klines)
-        # create colums name
-        data.columns = ['open_time','open', 'high', 'low', 'close', 'volume','close_time', 'qav','num_trades','taker_base_vol',"taker_quote_vol", "ignore"]
-                    
-        # change the timestamp
-        data.index = [dt.datetime.fromtimestamp(x/1000.0) for x in data.close_time]
-        #convert data to float and plot (ELIMINAR)
-        data['Symbol'] = ticker    
-        symbols.append(data)
-df = pd.concat(symbols)       
-df = df.reset_index()
-df = df[['index', 'close', 'Symbol']]
-df.head()
-df_pivot=df.pivot('index','Symbol','close').reset_index()
-df_pivot.head()
-for i in symbols_list:
-      df_pivot[i]=df_pivot[i].astype(float)
-df_pivot['ETHpct_change'] = df_pivot["ETH"].pct_change()
-df_pivot['ETH'] =  np.log(1 + df_pivot["ETHpct_change"])
-print(df_pivot)
-
-from datetime import date
-import datetime as dd
 def pre_month(months):
+    #Only for this year (max 8 months)
     abc = date(dd.datetime.today().year, dd.datetime.today().month, dd.datetime.today().day)
     month, year = (abc.month-months, abc.year) if abc.month != 1 else (12, abc.year-1)
     pre_month = abc.replace(day=dd.datetime.today().day, month=month, year=year)
