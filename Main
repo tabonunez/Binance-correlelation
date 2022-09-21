@@ -217,32 +217,32 @@ class Menu:
                                         
         def GetPrice(self):
           Symbol=input("Type Symbol")
-          interval=input("Type Interval")
+          interval=input("Type Interval Ex. "1d")")
           Date= Date= input("Type start date (YYYY-MM-DD)")
           Get_historical_data(Symbol,interval, Date)
         def GetVol(self):
           Symbol=input("Type Symbol")
-          interval=input("Type interval")
+          interval=input("Type interval (Ex. "1d")")
           Date= input("Type start date (YYYY-MM-DD)")
           Get_historical_Vol(Symbol,interval,Date)
         def GetPerpCor(self):
-          Symbol=input("Type Symbols")
+          Symbol=input("Type Symbols (Ex. "ETC, BTC, DOT")")
           date= input("Type start date (YYYY-MM-DD)")
           Fut_cor(date,Symbol)
         def GetSpotCor(slef):
-          Symbol=input("Type Symbols")
+          Symbol=input("Type Symbols (Ex. "ETC, BTC, DOT")")
           date= input("Type start date (YYYY-MM-DD)")
           cor(date,Symbol)
         def GetPerpCorA(self):
-          Symbol= input("Type Symbols")
+          Symbol= input("Type Symbols (Ex. "ETC, BTC, DOT")")
           date= pre_month(1)
           Fut_cor(date,Symbol)
         def GetPerpCorB(self):
-          Symbol= input("Type Symbols")
+          Symbol= input("Type Symbols (Ex. "ETC, BTC, DOT")")
           date= pre_month(3)
           Fut_cor(date,Symbol)
         def GetPerpCorC(self):
-          Symbol= input("Type Symbols")
+          Symbol= input("Type Symbols (Ex. "ETC, BTC, DOT")")
           date= pre_month(6)
           Fut_cor(date,Symbol)
 
